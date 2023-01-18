@@ -1,20 +1,78 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import _ from 'lodash';
+import Board from './src/Screen/Board/Board'
 
-export default function App() {
+
+const values = [
+  'Algodão',
+  'Andador',
+  'Babador',
+  'Banheira',
+  'Bebê',
+  'Berço',
+  'Body',
+  'Bola',
+  'Brinquedo',
+  'Carrinho',
+  'Chocalho',
+  'Chupeta',
+  'Cotonete',
+  'Cueiro',
+  'Enxoval',
+  'Escova',
+  'Fralda',
+  'Gorro',
+  'Lencinho',
+  'Loção',
+  'Mamadeira',
+  'Mamãe',
+  'Manta',
+  'Mordedor',
+  'Papai',
+  'Pente',
+  'Pijama',
+  'Pomada',
+  'Talco',
+  'Titia',
+  'Titio',
+  'Toalha',
+  'Trocador',
+  'Vovó',
+  'Vovô'
+]
+
+// const names = [
+//   ['Algodão',   'Andador',  'Babador' ],
+//   ['Bebê',      'Berço',    'Body',   ],
+//   ['Brinquedo', 'Carrinho', 'Chocalho']
+// ]
+
+const App = () => {
+  const generateNames = values => {
+    const num = 4;
+    const rows = num;
+    const cols = num;
+    const names = [];
+  
+    const shuffledValues = _.shuffle(values);
+    const selectedValues = _.sampleSize(shuffledValues, rows * cols);
+  
+    for (let i = 0; i < rows; i++) {
+      const row = [];
+      for (let j = 0; j < cols; j++) {
+        row.push(selectedValues[i * cols + j]);
+      }
+      names.push(row);
+    }
+  
+    return names;
+  };
+  
+  const names = generateNames(values);
+  
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Board squareNames={names} />
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
