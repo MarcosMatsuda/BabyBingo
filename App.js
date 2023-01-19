@@ -1,7 +1,6 @@
-import React from 'react';
-import _ from 'lodash';
+import React from 'react'
+import _ from 'lodash'
 import Board from './src/Screen/Board/Board'
-
 
 const values = [
   'Algodão',
@@ -49,30 +48,30 @@ const values = [
 
 const App = () => {
   const generateNames = values => {
-    const num = 4;
-    const rows = num;
-    const cols = num;
-    const names = [];
-  
-    const shuffledValues = _.shuffle(values);
-    const selectedValues = _.sampleSize(shuffledValues, rows * cols);
-  
+    const num = 4
+    const rows = num
+    const cols = num
+    const names = []
+
+    const shuffledValues = _.shuffle(values)
+    const selectedValues = _.sampleSize(shuffledValues, rows * cols)
+
     for (let i = 0; i < rows; i++) {
-      const row = [];
+      const row = []
       for (let j = 0; j < cols; j++) {
-        row.push(selectedValues[i * cols + j]);
+        row.push(selectedValues[i * cols + j])
       }
-      names.push(row);
+      names.push(row)
     }
-  
-    return names;
-  };
-  
-  const names = generateNames(values);
-  
+
+    return names
+  }
+
+  const names = generateNames(values)
+
   return (
     <Board squareNames={names} />
-  );
-};
+  )
+}
 
-export default App;
+export default App
