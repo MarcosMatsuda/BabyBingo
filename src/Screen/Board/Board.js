@@ -1,20 +1,19 @@
-import React, {useState, useEffect, useCallback} from 'react';
-import _ from 'lodash';
+import React, { useState, useEffect, useCallback } from 'react'
+import { array } from 'prop-types'
 import * as Styles from './Board.styles'
 
-const Board = ({squareNames}) => {
-  const [isFullBoard, setIsFullBoard] = useState(false);
-  const [hasLineBingo, setHasLineBingo] = useState(false);
-  const [selectedSquares, setSelectedSquares] = useState([]);
+const Board = ({ squareNames }) => {
+  const [isFullBoard, setIsFullBoard] = useState(false)
+  const [hasLineBingo, setHasLineBingo] = useState(false)
+  const [selectedSquares, setSelectedSquares] = useState([])
 
   const toggleSelection = useCallback(index => {
     if (selectedSquares.includes(index)) {
-      setSelectedSquares(selectedSquares.filter(i => i !== index));
+      setSelectedSquares(selectedSquares.filter(i => i !== index))
     } else {
-      setSelectedSquares([...selectedSquares, index]);
+      setSelectedSquares([...selectedSquares, index])
     }
   }, [selectedSquares])
-  
 
   const hasBingoInRow = rowIndex => {
     const row = squareNames[rowIndex]
@@ -24,11 +23,11 @@ const Board = ({squareNames}) => {
   const hasBingoInColumn = (columnIndex, selectedSquares, squareNames) => {
     return squareNames.every(row => selectedSquares.includes(row[columnIndex]))
   }
-  
+
   const hasBingoInTopLeftBottomRightDiagonal = () => {
     return squareNames.every((row, i) => selectedSquares.includes(row[i]))
   }
-  
+
   const hasBingoInTopRightBottomLeftDiagonal = (selectedSquares, board) => {
     for (let i = 0; i < board.length; i++) {
       if (!selectedSquares.includes(board[i][board.length - 1 - i])) {
@@ -36,8 +35,8 @@ const Board = ({squareNames}) => {
       }
     }
     return true
-  };
-  
+  }
+
   const hasBingoLine = () => {
     // Check rows
     for (let i = 0; i < squareNames.length; i++) {
@@ -45,14 +44,14 @@ const Board = ({squareNames}) => {
         return true
       }
     }
-    
+
     // Check columns
     for (let i = 0; i < squareNames[0].length; i++) {
       if (hasBingoInColumn(i, selectedSquares, squareNames)) {
         return true
       }
     }
-    
+
     // Check diagonals
     if (hasBingoInTopLeftBottomRightDiagonal()) {
       return true
@@ -63,7 +62,7 @@ const Board = ({squareNames}) => {
   }
 
   useEffect(() => {
-    if(hasBingoLine() && hasLineBingo === false){
+    if (hasBingoLine() && hasLineBingo === false) {
       console.log('bingo linha')
       setHasLineBingo(true)
     }
@@ -80,8 +79,8 @@ const Board = ({squareNames}) => {
       {squareNames.map((row, i) => (
         <Styles.Row key={i}>
           {row.map((name, j) => (
-            <Styles.Square 
-              key={j} 
+            <Styles.Square
+              key={j}
               selected={selectedSquares.includes(name)}
               onPress={() => toggleSelection(name)}
             >
@@ -92,7 +91,11 @@ const Board = ({squareNames}) => {
       ))}
       {isFullBoard && <Styles.Result>BINGO</Styles.Result>}
     </Styles.Container>
-  );
-};
+  )
+}
 
-export default Board;
+Board.propTypes = {
+  squareNames: array.isRequired
+}
+
+export default Board
